@@ -1,0 +1,10 @@
+# Never commit the API key.
+.env
+
+.venv/
+__pycache__/
+*.pyc
+
+# Research output — regenerate it, don't track it.
+results.csv
+results.json
