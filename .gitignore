@@ -5,6 +5,6 @@
 __pycache__/
 *.pyc
 
-# Research output — regenerate it, don't track it.
-results.csv
-results.json
+# Research output IS the deliverable — results.csv, patterns.json,
+# verification.json, human_review.csv and index.html are tracked on purpose so
+# the page can be rebuilt and audited from the repo alone.
