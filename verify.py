@@ -19,9 +19,10 @@ from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
-from google import genai
 
-from agent import (CHOICES, ask_model, domain, get_text, get_urls, match_choice,
+import providers
+
+from agent import (CHOICES, domain, match_choice,
                    parse_json, read_csv, write_csv, COLUMNS)
 
 # The fields accuracy is actually measured on. category/description are prose and
@@ -166,36 +167,28 @@ def run_url_check(rows):
 
 # ------------------------------------------------------------- blind re-search
 
-def recheck_one(client, model, app):
-    interaction = client.interactions.create(
-        model=model,
-        system_instruction=RECHECK_SYSTEM,
-        input=RECHECK_PROMPT.format(app_name=app["app"], website=app.get("website", "")),
-        tools=[{"type": "google_search"}],
-        generation_config={"max_output_tokens": 4000},
-    )
-    data = parse_json(get_text(interaction))
+def recheck_one(agent, app):
+    text, urls = agent.research(
+        RECHECK_SYSTEM,
+        RECHECK_PROMPT.format(app_name=app["app"], website=app.get("website", "")))
+    data = parse_json(text)
     out = {"evidence_url": (data.get("evidence_url") or "").strip()}
     for field in GRADED:
         if field == "auth":
             out[field] = (data.get("auth") or "Unknown").strip()
         else:
             out[field] = match_choice(data.get(field), CHOICES[field])
-    return out, get_urls(interaction)
+    return out, urls
 
 
-def adjudicate(client, model, app, field, value_a, value_b):
+def adjudicate(agent, app, field, value_a, value_b):
     allowed = ", ".join(CHOICES[field]) if field in CHOICES else "free text"
-    interaction = client.interactions.create(
-        model=model,
-        system_instruction=ADJUDICATE_SYSTEM,
-        input=ADJUDICATE_PROMPT.format(app_name=app["app"], website=app.get("website", ""),
-                                       field=field, value_a=value_a, value_b=value_b,
-                                       allowed=allowed),
-        tools=[{"type": "google_search"}],
-        generation_config={"max_output_tokens": 4000},
-    )
-    data = parse_json(get_text(interaction))
+    text, _ = agent.research(
+        ADJUDICATE_SYSTEM,
+        ADJUDICATE_PROMPT.format(app_name=app["app"], website=app.get("website", ""),
+                                 field=field, value_a=value_a, value_b=value_b,
+                                 allowed=allowed))
+    data = parse_json(text)
     value = (data.get("correct_value") or "").strip()
     if field in CHOICES:
         value = match_choice(value, CHOICES[field])
@@ -211,10 +204,10 @@ def adjudicate(client, model, app, field, value_a, value_b):
 
 def run_recheck(rows, sample_size, apply_fixes):
     load_dotenv()
-    if not os.getenv("GEMINI_API_KEY"):
-        raise SystemExit("No GEMINI_API_KEY. Copy .env.example to .env first.")
-    model = os.getenv("MODEL", "gemini-3.7-flash")
-    client = genai.Client()
+    try:
+        agent = providers.build(os.getenv("PROVIDER"), os.getenv("MODEL"))
+    except providers.ProviderError as error:
+        raise SystemExit(str(error))
 
     inputs = {a["app_name"]: a for a in read_csv("apps.csv")}
     random.seed(7)  # same sample every run, so the numbers are reproducible
@@ -229,7 +222,7 @@ def run_recheck(rows, sample_size, apply_fixes):
         app = dict(row, website=inputs.get(row["app"], {}).get("website", ""))
         print("[%d/%d] %s" % (i, len(sample), row["app"]))
         try:
-            second, _ = recheck_one(client, model, app)
+            second, _ = recheck_one(agent, app)
         except Exception as error:
             print("    recheck failed: %s" % error)
             continue
@@ -251,7 +244,7 @@ def run_recheck(rows, sample_size, apply_fixes):
         # independent passes landing on the same answer.
         for field in disputed:
             try:
-                verdict = adjudicate(client, model, app, field,
+                verdict = adjudicate(agent, app, field,
                                      row.get(field), second.get(field))
             except Exception as error:
                 print("    adjudication failed on %s: %s" % (field, error))

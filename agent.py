@@ -11,7 +11,8 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from dotenv import load_dotenv
-from google import genai
+
+import providers
 
 COLUMNS = ["app", "category", "description", "auth", "credential_access", "api",
            "api_breadth", "mcp", "buildability", "blocker", "evidence_url",
@@ -28,6 +29,9 @@ CHOICES = {
     "confidence": ["High", "Medium", "Low"],
 }
 
+# Tried in order when the configured model isn't available to this key. The
+# grounded-search models get renamed and retired often enough that pinning a
+# single name is how the run dies three months later.
 SYSTEM = """You are researching software APIs. Check the official developer
 documentation and report what it says. Do not answer from memory.
 
@@ -72,41 +76,6 @@ notes: a sentence on how you decided, naming the source
 {{"category":"","description":"","auth":"","credential_access":"","api":"",
 "api_breadth":"","mcp":"","buildability":"","blocker":"","evidence_url":"",
 "confidence":"","notes":""}}"""
-
-
-def ask_model(client, model, app):
-    return client.interactions.create(
-        model=model,
-        system_instruction=SYSTEM,
-        input=PROMPT.format(
-            app_name=app["app_name"],
-            category=app.get("category", ""),
-            website=app.get("website", ""),
-        ),
-        tools=[{"type": "google_search"}],
-        # Headroom over the ~300 tokens of JSON, because thinking tokens count
-        # against this too and a truncated reply parses as no JSON at all.
-        generation_config={"max_output_tokens": 4000},
-    )
-
-
-def get_text(interaction):
-    return (interaction.output_text or "").strip()
-
-
-def get_urls(interaction):
-    # Every URL the search tool actually cited. Used to check evidence_url
-    # against something instead of taking the model's word for it.
-    urls = []
-    for step in getattr(interaction, "steps", None) or []:
-        if getattr(step, "type", None) != "model_output":
-            continue
-        for block in getattr(step, "content", None) or []:
-            for note in getattr(block, "annotations", None) or []:
-                if getattr(note, "type", None) == "url_citation":
-                    if getattr(note, "url", None):
-                        urls.append(note.url)
-    return urls
 
 
 def domain(url):
@@ -171,27 +140,56 @@ def blank_row(app):
     return row
 
 
-def research(client, model, app):
+def research(agent, app):
+    prompt = PROMPT.format(app_name=app["app_name"],
+                           category=app.get("category", ""),
+                           website=app.get("website", ""))
     for attempt in (1, 2):
         try:
-            interaction = ask_model(client, model, app)
-            data = parse_json(get_text(interaction))
+            text, urls = agent.research(SYSTEM, prompt)
+            data = parse_json(text)
             if not data:
                 raise ValueError("no JSON in reply")
-            urls = get_urls(interaction)
             row = build_row(data, app, urls)
             extra = {
                 "notes": (data.get("notes") or "").strip(),
                 "sources_seen": urls,
                 "researched_at": datetime.now().isoformat(timespec="seconds"),
+                "model": agent.model,
+                "provider": agent.name,
             }
             return row, extra
         except Exception as error:
             print("    attempt %d failed: %s" % (attempt, error))
             if attempt == 2:
                 return blank_row(app), {"notes": "failed: %s" % error,
-                                        "sources_seen": [], "researched_at": ""}
+                                        "sources_seen": [], "researched_at": "",
+                                        "model": agent.model, "provider": agent.name}
             time.sleep(5)
+
+
+def check(agent, app):
+    """Smoke test: does the key work, does search run, does JSON come back?"""
+    print("Provider : %s" % agent.name)
+    print("Model    : %s" % agent.model)
+    print("Test app : %s" % app["app_name"])
+    print()
+    row, extra = research(agent, app)
+    urls = extra["sources_seen"]
+
+    print("Searched : %d cited URLs%s" % (
+        len(urls), "" if urls else
+        "   <-- search returned nothing, answers would come from memory"))
+    for url in urls[:5]:
+        print("           %s" % url)
+    if row["auth"] == "Unknown" and row["confidence"] == "Low":
+        print()
+        print("Row came back blank. Reason: %s" % extra["notes"])
+        raise SystemExit(1)
+    print()
+    print("Row: %s" % json.dumps(row, indent=2))
+    print()
+    print("Working. Run `python agent.py` for the full 100.")
 
 
 def read_csv(path):
@@ -212,11 +210,15 @@ def main():
     parser.add_argument("--out", default="results.csv")
     parser.add_argument("--limit", type=int)
     parser.add_argument("--sleep", type=float, default=2.0)
+    parser.add_argument("--provider", choices=sorted(providers.REGISTRY),
+                        help="Default: whichever API key is set in .env")
+    parser.add_argument("--model", help="Override the model for that provider")
     parser.add_argument("--show-prompt", action="store_true")
+    parser.add_argument("--check", action="store_true",
+                        help="Research one app and print the result, then exit.")
     args = parser.parse_args()
 
     load_dotenv()
-    model = os.getenv("MODEL", "gemini-3.7-flash")
     apps = read_csv(args.input)
     if args.limit:
         apps = apps[:args.limit]
@@ -229,14 +231,19 @@ def main():
                             website=apps[0].get("website", "")))
         return
 
-    if not os.getenv("GEMINI_API_KEY"):
-        raise SystemExit("No GEMINI_API_KEY. Copy .env.example to .env first.")
+    try:
+        agent = providers.build(args.provider or os.getenv("PROVIDER"),
+                                args.model or os.getenv("MODEL"))
+    except providers.ProviderError as error:
+        raise SystemExit(str(error))
 
-    client = genai.Client()
+    if args.check:
+        return check(agent, apps[0])
+
     json_path = Path(args.out).with_suffix(".json")
 
-    # Re-running picks up where it left off instead of spending free quota on
-    # the same apps.
+    # Re-running picks up where it left off instead of paying for the same
+    # apps twice.
     rows, records = [], []
     if Path(args.out).exists():
         rows = read_csv(args.out)
@@ -246,11 +253,12 @@ def main():
 
     done = {r["app"] for r in rows}
     todo = [a for a in apps if a["app_name"] not in done]
-    print("Researching %d apps with %s\n" % (len(todo), model))
+    print("Researching %d apps with %s (%s)" % (len(todo), agent.model, agent.name))
+    print()
 
     for i, app in enumerate(todo, start=1):
         print("[%d/%d] %s" % (i, len(todo), app["app_name"]))
-        row, extra = research(client, model, app)
+        row, extra = research(agent, app)
         rows.append(row)
         records.append(dict(row, **extra))
 
@@ -260,12 +268,13 @@ def main():
         if extra["notes"]:
             print("    why: %s" % extra["notes"])
 
-        # Save every time. The run takes a while and I don't want to lose it.
+        # Save every time. The run takes a while and losing it would hurt.
         write_csv(rows, args.out)
         json_path.write_text(json.dumps(records, indent=2), encoding="utf-8")
         time.sleep(args.sleep)
 
-    print("\nDone. %d rows in %s" % (len(rows), args.out))
+    print()
+    print("Done. %d rows in %s" % (len(rows), args.out))
 
 
 if __name__ == "__main__":
