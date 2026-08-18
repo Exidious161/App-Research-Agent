@@ -5,7 +5,9 @@ import argparse
 import csv
 import json
 import os
+import threading
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 from urllib.parse import urlparse
@@ -146,7 +148,7 @@ def research(agent, app):
                            website=app.get("website", ""))
     for attempt in (1, 2):
         try:
-            text, urls = agent.research(SYSTEM, prompt)
+            text, urls = agent.research(SYSTEM, prompt, app)
             data = parse_json(text)
             if not data:
                 raise ValueError("no JSON in reply")
@@ -209,7 +211,10 @@ def main():
     parser.add_argument("--input", default="apps.csv")
     parser.add_argument("--out", default="results.csv")
     parser.add_argument("--limit", type=int)
-    parser.add_argument("--sleep", type=float, default=2.0)
+    parser.add_argument("--sleep", type=float, default=0.0,
+                        help="Pause between apps. Only used with --workers 1.")
+    parser.add_argument("--workers", type=int, default=6,
+                        help="Apps researched concurrently. Lower it if you hit rate limits.")
     parser.add_argument("--provider", choices=sorted(providers.REGISTRY),
                         help="Default: whichever API key is set in .env")
     parser.add_argument("--model", help="Override the model for that provider")
@@ -253,28 +258,62 @@ def main():
 
     done = {r["app"] for r in rows}
     todo = [a for a in apps if a["app_name"] not in done]
-    print("Researching %d apps with %s (%s)" % (len(todo), agent.model, agent.name))
+    print("Researching %d apps with %s (%s), %d at a time"
+          % (len(todo), agent.model, agent.name, args.workers))
     print()
+    started = time.time()
 
-    for i, app in enumerate(todo, start=1):
-        print("[%d/%d] %s" % (i, len(todo), app["app_name"]))
+    # Nearly all of the wall clock is waiting -- on the docs fetch and on the
+    # model. Running apps concurrently turns a ~20 minute serial pass into a
+    # couple of minutes. Keep workers modest on a free tier, which rate-limits
+    # by requests per minute.
+    lock = threading.Lock()
+    done_count = [0]
+
+    def work(item):
+        index, app = item
         row, extra = research(agent, app)
+        with lock:
+            done_count[0] += 1
+            print("[%d/%d] %-24s %s | %s | %s | %s | %s" % (
+                done_count[0], len(todo), app["app_name"][:24],
+                row["auth"][:22], row["credential_access"], row["api"],
+                row["mcp"], row["buildability"]))
+            if extra["notes"] and row["confidence"] == "Low":
+                print("        low confidence: %s" % extra["notes"][:100])
+        return index, row, extra
+
+    if args.workers > 1:
+        with ThreadPoolExecutor(max_workers=args.workers) as pool:
+            futures = [pool.submit(work, item) for item in enumerate(todo)]
+            completed = []
+            for future in as_completed(futures):
+                completed.append(future.result())
+                # Checkpoint as results land, so an interrupted run keeps
+                # everything finished so far.
+                with lock:
+                    ordered = sorted(completed)
+                    write_csv(rows + [r for _, r, _ in ordered], args.out)
+    else:
+        completed = []
+        for item in enumerate(todo):
+            completed.append(work(item))
+            write_csv(rows + [r for _, r, _ in sorted(completed)], args.out)
+            time.sleep(args.sleep)
+
+    for _, row, extra in sorted(completed):
         rows.append(row)
         records.append(dict(row, **extra))
 
-        print("    %s | %s | %s | %s | %s | %s" % (
-            row["auth"], row["credential_access"], row["api"], row["mcp"],
-            row["buildability"], row["confidence"]))
-        if extra["notes"]:
-            print("    why: %s" % extra["notes"])
+    write_csv(rows, args.out)
+    json_path.write_text(json.dumps(records, indent=2), encoding="utf-8")
 
-        # Save every time. The run takes a while and losing it would hurt.
-        write_csv(rows, args.out)
-        json_path.write_text(json.dumps(records, indent=2), encoding="utf-8")
-        time.sleep(args.sleep)
-
+    blank = sum(1 for r in rows if r["confidence"] == "Low"
+                and r["auth"] == "Unknown")
     print()
-    print("Done. %d rows in %s" % (len(rows), args.out))
+    print("Done in %.1f min. %d rows in %s%s" % (
+        (time.time() - started) / 60, len(rows), args.out,
+        "" if not blank else "  (%d came back empty -- rerun to retry them)" % blank))
 
 
 if __name__ == "__main__":

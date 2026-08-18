@@ -11,6 +11,8 @@ Add a backend by implementing research() and registering it in REGISTRY.
 
 import os
 
+import fetcher
+
 
 class ProviderError(RuntimeError):
     pass
@@ -66,7 +68,7 @@ class AnthropicProvider:
             fallbacks="default",
         )
 
-    def research(self, system, prompt):
+    def research(self, system, prompt, app=None):
         messages = [{"role": "user", "content": prompt}]
         urls, text_parts = [], []
 
@@ -96,6 +98,17 @@ class AnthropicProvider:
             messages.append({"role": "assistant", "content": response.content})
 
         return "\n".join(text_parts).strip(), urls
+
+    def complete(self, system, prompt):
+        """One call, no tools. Used when evidence is supplied in the prompt."""
+        response = self.client.beta.messages.create(
+            model=self.model, max_tokens=4000, system=system,
+            messages=[{"role": "user", "content": prompt}],
+            betas=["server-side-fallback-2026-07-01"], fallbacks="default")
+        if getattr(response, "stop_reason", None) == "refusal":
+            detail = getattr(response, "stop_details", None)
+            raise ProviderError("refused (%s)" % getattr(detail, "category", "?"))
+        return "\n".join(self._text(response)).strip()
 
     @staticmethod
     def _text(response):
@@ -168,7 +181,7 @@ class GeminiProvider:
         except Exception:
             return []
 
-    def research(self, system, prompt):
+    def research(self, system, prompt, app=None):
         interaction = self.client.interactions.create(
             model=self.model,
             system_instruction=system,
@@ -179,6 +192,13 @@ class GeminiProvider:
             generation_config={"max_output_tokens": 4000},
         )
         return (interaction.output_text or "").strip(), self._urls(interaction)
+
+    def complete(self, system, prompt):
+        """One call, no grounding. This is the part the free tier still covers."""
+        interaction = self.client.interactions.create(
+            model=self.model, system_instruction=system, input=prompt,
+            generation_config={"max_output_tokens": 4000})
+        return (interaction.output_text or "").strip()
 
     @staticmethod
     def _urls(interaction):
@@ -195,8 +215,72 @@ class GeminiProvider:
 
 
 # --------------------------------------------------------------------------
+# Docs -- fetch the documentation ourselves, then reason over it
+# --------------------------------------------------------------------------
 
-REGISTRY = {"anthropic": AnthropicProvider, "gemini": GeminiProvider}
+class DocsProvider:
+    """Reads the app's own developer docs instead of paying for hosted search.
+
+    Hosted search grounding is the expensive line item: Anthropic web_search
+    bills per search, and Google moved Search grounding behind the paid tier.
+    But apps.csv already tells us where every app lives, so fetcher.py can find
+    and read the developer portal over plain HTTP for nothing.
+
+    The model then gets the page text and is told to answer only from it. That
+    is a stricter contract than search grounding -- the exact bytes behind every
+    answer are kept in the record, so a human reviewer can open the same page.
+
+    The cost is recall: an app whose portal sits on an unguessable domain comes
+    back with no pages, and this reports that rather than guessing.
+    """
+
+    name = "docs"
+    MAX_PAGES = 5
+
+    NO_DOCS = ("No developer documentation could be fetched from the app website. "
+               "Report Unknown for anything the site does not establish, set "
+               "confidence to Low, and say so in notes.")
+
+    def __init__(self, model=None, api_key=None, llm=None):
+        # Any backend with complete() works. Whichever key is present wins.
+        self.llm = llm or _build_llm(model=model, api_key=api_key)
+        self.model = "%s via %s" % (self.llm.model, self.llm.name)
+        self._cache = {}
+
+    def research(self, system, prompt, app=None):
+        app = app or {}
+        website = app.get("website") or ""
+        pages = self._pages(website, app.get("docs_hint") or "")
+        urls = [url for url, _ in pages]
+
+        if pages:
+            evidence = ("Documentation fetched from the app website is below. "
+                        "Answer only from it. If it does not establish a field, "
+                        "write Unknown.\n\n" + fetcher.as_context(pages)
+                        + "\n\n--- end of fetched documentation ---\n\n")
+        else:
+            evidence = self.NO_DOCS + "\n\n"
+
+        return self.llm.complete(system, evidence + prompt), urls
+
+    def complete(self, system, prompt):
+        return self.llm.complete(system, prompt)
+
+    def _pages(self, website, docs_hint=""):
+        key = (website, docs_hint)
+        if key not in self._cache:
+            try:
+                self._cache[key] = fetcher.gather(website,
+                                                  max_pages=self.MAX_PAGES,
+                                                  docs_hint=docs_hint or None)
+            except Exception:
+                self._cache[key] = []
+        return self._cache[key]
+
+# --------------------------------------------------------------------------
+
+REGISTRY = {"docs": DocsProvider, "anthropic": AnthropicProvider,
+            "gemini": GeminiProvider}
 
 # Checked in this order when --provider is not given.
 DETECT = [("anthropic", "ANTHROPIC_API_KEY"),
@@ -204,10 +288,27 @@ DETECT = [("anthropic", "ANTHROPIC_API_KEY"),
           ("gemini", "GOOGLE_API_KEY")]
 
 
-def detect():
-    for name, env_var in DETECT:
+# Backends that can reason over supplied text, in the order DocsProvider tries.
+LLM_ORDER = [("anthropic", "ANTHROPIC_API_KEY"),
+             ("gemini", "GEMINI_API_KEY"),
+             ("gemini", "GOOGLE_API_KEY")]
+
+
+def _build_llm(model=None, api_key=None):
+    """The cheapest usable reasoning backend, for providers that supply evidence."""
+    for name, env_var in LLM_ORDER:
         if os.getenv(env_var):
-            return name
+            return REGISTRY[name](model=model, api_key=api_key)
+    raise ProviderError(
+        "No API key found. Copy .env.example to .env and set one of "
+        "ANTHROPIC_API_KEY or GEMINI_API_KEY.")
+
+
+def detect():
+    """Default to the docs backend, which adds no per-search cost."""
+    for _, env_var in LLM_ORDER:
+        if os.getenv(env_var):
+            return "docs"
     return None
 
 

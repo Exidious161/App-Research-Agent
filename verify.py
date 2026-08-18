@@ -170,7 +170,9 @@ def run_url_check(rows):
 def recheck_one(agent, app):
     text, urls = agent.research(
         RECHECK_SYSTEM,
-        RECHECK_PROMPT.format(app_name=app["app"], website=app.get("website", "")))
+        RECHECK_PROMPT.format(app_name=app["app"], website=app.get("website", "")),
+        {"app_name": app["app"], "website": app.get("website", ""),
+         "docs_hint": app.get("docs_hint", "")})
     data = parse_json(text)
     out = {"evidence_url": (data.get("evidence_url") or "").strip()}
     for field in GRADED:
@@ -187,7 +189,9 @@ def adjudicate(agent, app, field, value_a, value_b):
         ADJUDICATE_SYSTEM,
         ADJUDICATE_PROMPT.format(app_name=app["app"], website=app.get("website", ""),
                                  field=field, value_a=value_a, value_b=value_b,
-                                 allowed=allowed))
+                                 allowed=allowed),
+        {"app_name": app["app"], "website": app.get("website", ""),
+         "docs_hint": app.get("docs_hint", "")})
     data = parse_json(text)
     value = (data.get("correct_value") or "").strip()
     if field in CHOICES:
@@ -219,7 +223,9 @@ def run_recheck(rows, sample_size, apply_fixes):
     agree_count = {f: 0 for f in GRADED}
 
     for i, row in enumerate(sample, start=1):
-        app = dict(row, website=inputs.get(row["app"], {}).get("website", ""))
+        source = inputs.get(row["app"], {})
+        app = dict(row, website=source.get("website", ""),
+                   docs_hint=source.get("docs_hint", ""))
         print("[%d/%d] %s" % (i, len(sample), row["app"]))
         try:
             second, _ = recheck_one(agent, app)
