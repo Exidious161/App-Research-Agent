@@ -1,0 +1,513 @@
+{
+ "Salesforce": [
+  "https://help.salesforce.com/s/?language=en_US"
+ ],
+ "HubSpot": [
+  "https://developers.hubspot.com/"
+ ],
+ "Pipedrive": [
+  "https://developers.pipedrive.com/"
+ ],
+ "Attio": [
+  "https://docs.attio.com/docs/overview",
+  "https://docs.attio.com/mcp/overview",
+  "https://docs.attio.com/rest-api/overview"
+ ],
+ "Twenty": [
+  "https://developers.twenty.com/"
+ ],
+ "Podio": [
+  "https://developers.podio.com/",
+  "https://developers.podio.com/authentication",
+  "https://developers.podio.com/api-key",
+  "https://developers.podio.com/doc"
+ ],
+ "Zoho CRM": [
+  "https://www.zoho.com/en-in/crm/"
+ ],
+ "Close": [
+  "https://developer.close.com/",
+  "https://developer.close.com/api/overview/api-key-authentication",
+  "https://developer.close.com/integrations/create-an-oauth-app",
+  "https://developer.close.com/integrations",
+  "https://developer.close.com/api/overview"
+ ],
+ "Copper": [
+  "https://developer.copper.com/",
+  "https://developer.copper.com/introduction/oauth/quickstart.html",
+  "https://developer.copper.com/introduction/authentication.html",
+  "https://developer.copper.com/introduction/oauth/index.html",
+  "https://developer.copper.com/introduction/oauth/flow.html"
+ ],
+ "DealCloud": [
+  "https://api.docs.dealcloud.com/",
+  "https://api.docs.dealcloud.com/mcp/authentication",
+  "https://api.docs.dealcloud.com/docs/token",
+  "https://api.docs.dealcloud.com/sdk/python/authentication",
+  "https://api.docs.dealcloud.com/sdk/csharp/authentication"
+ ],
+ "Zendesk": [
+  "https://www.zendesk.com/help-center-closed/?utm_source=helpcenter-closed&utm_medium=poweredbyzendesk&utm_campaign=text&utm_content=developers.zendesk.com",
+  "https://www.zendesk.com/pricing/"
+ ],
+ "Intercom": [
+  "https://developers.intercom.com/",
+  "https://developers.intercom.com/docs/build-an-integration/getting-started",
+  "https://developers.intercom.com/docs/build-an-integration/getting-started/build-an-app-for-your-messenger",
+  "https://developers.intercom.com/docs/build-an-integration/getting-started/build-an-app-for-your-inbox",
+  "https://developers.intercom.com/docs/references/introduction"
+ ],
+ "Freshdesk": [
+  "https://www.freshworks.com/freshdesk/",
+  "https://www.freshworks.com/freshdesk/pricing/"
+ ],
+ "Front": [
+  "https://front.com/product/integrate-with-customer-service-apps-front",
+  "https://front.com/pricing"
+ ],
+ "Pylon": [
+  "https://docs.usepylon.com/pylon-docs",
+  "https://docs.usepylon.com/pylon-docs/knowledge-base/custom-authentication",
+  "https://docs.usepylon.com/pylon-docs/customer-portal/custom-authentication",
+  "https://docs.usepylon.com/pylon-docs/integrations/pylon-mcp"
+ ],
+ "LiveAgent": [
+  "https://www.liveagent.com/",
+  "https://www.liveagent.com/pricing/"
+ ],
+ "Plain": [
+  "https://www.plain.com/docs/graphql/introduction",
+  "https://www.plain.com/docs/graphql/authentication",
+  "https://www.plain.com/docs/graphql/schema",
+  "https://www.plain.com/docs/graphql/pagination",
+  "https://www.plain.com/docs/graphql/error-handling"
+ ],
+ "Help Scout": [
+  "https://developer.helpscout.com/",
+  "https://developer.helpscout.com/apps/getting-started/"
+ ],
+ "Gorgias": [
+  "https://developers.gorgias.com/",
+  "https://developers.gorgias.com/docs/private-vs-public-app",
+  "https://developers.gorgias.com/reference/introduction"
+ ],
+ "Gladly": [
+  "https://developer.gladly.com/",
+  "https://developer.gladly.com/rest/"
+ ],
+ "Slack": [
+  "https://docs.slack.dev/"
+ ],
+ "Twilio": [
+  "https://developers.twilio.com/series/twilio-developers-hub/landing_page"
+ ],
+ "Zoho Cliq": [
+  "https://www.zoho.com/cliq/"
+ ],
+ "Lark (Larksuite)": [
+  "https://open.larksuite.com/developers"
+ ],
+ "Pumble": [
+  "https://pumble.com/login?identifier=developers"
+ ],
+ "Discord": [
+  "https://docs.discord.com/developers/intro",
+  "https://docs.discord.com/developers/platform/oauth2-and-permissions",
+  "https://docs.discord.com/developers/reference"
+ ],
+ "Telegram": [
+  "https://core.telegram.org/developers"
+ ],
+ "WhatsApp Business": [
+  "https://developers.facebook.com/documentation/business-messaging/whatsapp/overview",
+  "https://developers.facebook.com/documentation/business-messaging/whatsapp/pricing/authentication-international-rates/",
+  "https://developers.facebook.com/documentation/business-messaging/whatsapp/direct-send/send-utility-and-authentication-messages/",
+  "https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/authentication-templates/authentication-templates/",
+  "https://developers.facebook.com/documentation/business-messaging/whatsapp/templates/authentication-templates/authentication-best-practices/"
+ ],
+ "Aircall": [
+  "https://developers.aircall.io/",
+  "https://developers.aircall.io/tutorials/how-aircall-oauth-flow-works",
+  "https://developers.aircall.io/api-references"
+ ],
+ "Vonage": [
+  "https://developer.vonage.com/en/home",
+  "https://developer.vonage.com/en/tutorials/silent-authentication/introduction",
+  "https://developer.vonage.com/en/video/guides/migration-guides/twilio/overview",
+  "https://developer.vonage.com/en/video/react-reference-app/overview"
+ ],
+ "Google Ads": [
+  "https://developers.google.com/google-ads"
+ ],
+ "Meta Ads": [
+  "https://developers.facebook.com/documentation/ads-commerce/marketing-api",
+  "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authentication",
+  "https://developers.facebook.com/documentation/ads-commerce/marketing-api/get-started/authorization",
+  "https://developers.facebook.com/documentation/ads-commerce/ads-ai-connectors/ads-mcp-server/ads-mcp-server-get-started",
+  "https://developers.facebook.com/documentation/ads-commerce/marketing-api/reference/business/system_user_access_tokens"
+ ],
+ "LinkedIn Ads": [
+  "https://learn.microsoft.com/en-us/linkedin/marketing/?view=li-lms-2026-08"
+ ],
+ "GoHighLevel": [
+  "https://highlevel.stoplight.io/docs/api"
+ ],
+ "Mailchimp": [
+  "https://mailchimp.com/developer/",
+  "https://mailchimp.com/developer/marketing/api/",
+  "https://mailchimp.com/developer/transactional/api/",
+  "https://mailchimp.com/developer/open-commerce/playground/"
+ ],
+ "Klaviyo": [
+  "https://developers.klaviyo.com/en",
+  "https://developers.klaviyo.com/en/docs/get_started",
+  "https://developers.klaviyo.com/en/reference/api_overview",
+  "https://developers.klaviyo.com/en/reference/get_events"
+ ],
+ "systeme.io": [
+  "https://developer.systeme.io/reference/api",
+  "https://developer.systeme.io/reference/api_paymentprice-plans_get_collection",
+  "https://developer.systeme.io/reference/api_paymentprice-plans_post",
+  "https://developer.systeme.io/reference/api_paymentprice-plans_id_get",
+  "https://developer.systeme.io/reference/api_paymentprice-plans_id_delete"
+ ],
+ "Pinterest": [
+  "https://developers.pinterest.com/",
+  "https://developers.pinterest.com/usecase/conversions/",
+  "https://developers.pinterest.com/usecase/content/",
+  "https://developers.pinterest.com/usecase/ads/",
+  "https://developers.pinterest.com/usecase/catalogs/"
+ ],
+ "Threads (Meta)": [
+  "https://developers.facebook.com/documentation/threads",
+  "https://developers.facebook.com/documentation/threads/get-started/get-access-tokens-and-permissions",
+  "https://developers.facebook.com/documentation/threads/get-started/app-access-tokens",
+  "https://developers.facebook.com/documentation/threads/troubleshooting/debug-access-token"
+ ],
+ "SendGrid": [
+  "https://www.twilio.com:443/docs/sendgrid",
+  "https://www.twilio.com:443/docs/sendgrid/ui/account-and-settings/how-to-set-up-domain-authentication",
+  "https://www.twilio.com:443/docs/sendgrid/ui/account-and-settings/api-keys",
+  "https://www.twilio.com:443/docs/sendgrid/for-developers/sending-email/email-api-quickstart-for-c",
+  "https://www.twilio.com:443/docs/sendgrid/for-developers/sending-email/quickstart-go"
+ ],
+ "Shopify": [
+  "https://shopify.dev/docs"
+ ],
+ "WooCommerce": [
+  "https://woocommerce.com/document/woocommerce-rest-api/",
+  "https://woocommerce.com/documentation/woocommerce/getting-started/",
+  "https://woocommerce.com/pricing/"
+ ],
+ "BigCommerce": [
+  "https://docs.bigcommerce.com/developer/docs/overview/quick-start",
+  "https://docs.bigcommerce.com/developer/docs/beta/powered-by/api-reference/auth/create-token",
+  "https://docs.bigcommerce.com/developer/docs/b2b-edition/getting-started/authentication",
+  "https://docs.bigcommerce.com/developer/docs/storefront/guides/graphql-storefront-api/authentication",
+  "https://docs.bigcommerce.com/developer/docs/storefront/guides/customer-authentication/customer-login"
+ ],
+ "Salesforce Commerce Cloud": [
+  "https://help.salesforce.com/s/?language=en_US"
+ ],
+ "Magento (Adobe Commerce)": [
+  "https://developer.adobe.com/commerce/"
+ ],
+ "Squarespace": [
+  "https://developers.squarespace.com/",
+  "https://developers.squarespace.com/changes/self-service-oauth-credential-management",
+  "https://developers.squarespace.com/commerce-apis/contacts"
+ ],
+ "Ecwid": [
+  "https://docs.ecwid.com",
+  "https://docs.ecwid.com/api-reference",
+  "https://docs.ecwid.com/api-reference/rest-api/checkout-extra-fields",
+  "https://docs.ecwid.com/get-started/set-up-your-dev-environment-in-ecwid",
+  "https://docs.ecwid.com/get-started/make-your-first-api-request"
+ ],
+ "Gumroad": [
+  "https://gumroad.com/api"
+ ],
+ "Amazon Selling Partner": [
+  "https://developer-docs.amazon/sp-api",
+  "https://developer-docs.amazon/sp-api/docs/renew-authorizations",
+  "https://developer-docs.amazon/sp-api/docs/reactivate-authorizations",
+  "https://developer-docs.amazon/sp-api/docs/resolve-common-http-and-authorization-error-codes",
+  "https://developer-docs.amazon/sp-api/docs/authorizing-selling-partner-api-applications"
+ ],
+ "fanbasis": [
+  "https://commas.com/",
+  "https://commas.com/enterprises"
+ ],
+ "DataForSEO": [
+  "https://docs.dataforseo.com/v3/",
+  "https://docs.dataforseo.com/v3/auth/",
+  "https://docs.dataforseo.com/v3/keywords_data/dataforseo_trends/subregion_interests/live/",
+  "https://docs.dataforseo.com/v3/business_data/social_media/pinterest/live/"
+ ],
+ "SE Ranking": [
+  "https://seranking.com/",
+  "https://seranking.com/api-pricing.html",
+  "https://seranking.com/mcp.html",
+  "https://seranking.com/subscription.html"
+ ],
+ "Ahrefs": [
+  "https://docs.ahrefs.com",
+  "https://docs.ahrefs.com/en/ahrefs-connect/docs/oauth-guide",
+  "https://docs.ahrefs.com/en/api/reference/site-explorer",
+  "https://docs.ahrefs.com/en/api/docs/api-keys-creation-and-management",
+  "https://docs.ahrefs.com/en/mcp/docs/introduction"
+ ],
+ "MrScraper": [
+  "https://docs.mrscraper.com/docs/getting-started/overview",
+  "https://docs.mrscraper.com/docs/residential-proxy/configuration/authentication",
+  "https://docs.mrscraper.com/docs/getting-started/api-token",
+  "https://docs.mrscraper.com/docs/getting-started/mcp-server",
+  "https://docs.mrscraper.com/docs/getting-started/quickstart"
+ ],
+ "Apify": [
+  "https://docs.apify.com/"
+ ],
+ "Firecrawl": [
+  "https://docs.firecrawl.dev/introduction",
+  "https://docs.firecrawl.dev/mcp-server",
+  "https://docs.firecrawl.dev/quickstarts/go",
+  "https://docs.firecrawl.dev/quickstarts/rust",
+  "https://docs.firecrawl.dev/quickstarts/elixir"
+ ],
+ "Bright Data": [
+  "https://docs.brightdata.com/introduction",
+  "https://docs.brightdata.com/api-reference/authentication",
+  "https://docs.brightdata.com/ai/mcp-server/overview",
+  "https://docs.brightdata.com/api-reference/SDK",
+  "https://docs.brightdata.com/api-reference/SDK-JS"
+ ],
+ "Sherlock": [
+  "https://github.com/sherlock-project/sherlock",
+  "https://github.com/mcp",
+  "https://github.com/pricing"
+ ],
+ "Waterfall.io": [
+  "https://docs.waterfall.io/v1/introduction",
+  "https://docs.waterfall.io/v1/authentication",
+  "https://docs.waterfall.io/v1/api-keys-overview",
+  "https://docs.waterfall.io/v1/api-keys-list",
+  "https://docs.waterfall.io/v1/api-keys-create"
+ ],
+ "Clay": [
+  "https://developers.clay.com/",
+  "https://developers.clay.com/quickstart"
+ ],
+ "GitHub": [
+  "https://docs.github.com/en/rest",
+  "https://docs.github.com/en/rest/authentication/endpoints-available-for-github-app-installation-access-tokens",
+  "https://docs.github.com/en/rest/authentication/endpoints-available-for-github-app-user-access-tokens",
+  "https://docs.github.com/en/rest/authentication/endpoints-available-for-fine-grained-personal-access-tokens",
+  "https://docs.github.com/en/rest/apps/oauth-applications"
+ ],
+ "Vercel": [
+  "https://vercel.com/docs/rest-api",
+  "https://vercel.com/docs/rest-api/authentication/sso-token-exchange",
+  "https://vercel.com/docs/mcp",
+  "https://vercel.com/login?next=%2Faccount%2Fsettings%2Ftokens",
+  "https://vercel.com/docs/frameworks/backend/xmcp"
+ ],
+ "Netlify": [
+  "https://docs.netlify.com/api-and-cli-guides/api-guides/get-started-with-api/",
+  "https://docs.netlify.com/manage/domains/get-started-with-domains/",
+  "https://docs.netlify.com/api-and-cli-guides/cli-guides/get-started-with-cli/",
+  "https://docs.netlify.com/resources/troubleshooting/error-reference/",
+  "https://docs.netlify.com/manage/accounts-and-billing/billing/billing-for-credit-based-plans/how-credits-work-for-enterprise-plans/"
+ ],
+ "Cloudflare": [
+  "https://developers.cloudflare.com/api/",
+  "https://developers.cloudflare.com/api/resources/realtime_kit/subresources/meetings/methods/refresh_participant_token",
+  "https://developers.cloudflare.com/api/resources/magic_network_monitoring/subresources/vpc_flows/subresources/tokens/methods/create",
+  "https://developers.cloudflare.com/api/resources/iam/subresources/oauth_scopes",
+  "https://developers.cloudflare.com/api/resources/iam/subresources/oauth_scopes/methods/list"
+ ],
+ "Supabase": [
+  "https://supabase.com/docs",
+  "https://supabase.com/docs/guides/auth",
+  "https://supabase.com/docs/reference/self-hosting-auth/introduction",
+  "https://supabase.com/docs/guides/getting-started/quickstarts/reactjs",
+  "https://supabase.com/docs/guides/getting-started/quickstarts/nextjs"
+ ],
+ "Neo4j": [
+  "https://neo4j.com/developer/",
+  "https://neo4j.com/developer/genai-ecosystem/model-context-protocol-mcp/",
+  "https://neo4j.com/docs/spark/current/quickstart/",
+  "https://neo4j.com/product/graphql-library/",
+  "https://neo4j.com/pricing/"
+ ],
+ "Snowflake": [
+  "https://docs.snowflake.com/en/",
+  "https://docs.snowflake.com/en/user-guide-getting-started",
+  "https://docs.snowflake.com/en/user-guide/tutorials/snowflake-in-20minutes",
+  "https://docs.snowflake.com/en/reference",
+  "https://docs.snowflake.com/en/sql-reference-data-types"
+ ],
+ "MongoDB Atlas": [
+  "https://www.mongodb.com/docs/atlas/api/",
+  "https://www.mongodb.com/docs/atlas/cli/current/atlas-cli-getting-started/",
+  "https://www.mongodb.com/docs/get-started/",
+  "https://www.mongodb.com/docs/atlas/reference/api-resources-spec/v2/",
+  "https://www.mongodb.com/docs/voyageai/api-reference/overview/"
+ ],
+ "Datadog": [
+  "https://docs.datadoghq.com/api/latest/"
+ ],
+ "Sentry": [
+  "https://docs.sentry.io/api/",
+  "https://docs.sentry.io/api/guides/create-auth-token/",
+  "https://docs.sentry.io/api/auth/",
+  "https://docs.sentry.io/api/permissions/"
+ ],
+ "Notion": [
+  "https://developers.notion.com/guides/get-started/overview",
+  "https://developers.notion.com/guides/get-started/authorization",
+  "https://developers.notion.com/guides/get-started/handling-api-keys",
+  "https://developers.notion.com/guides/get-started/personal-access-tokens",
+  "https://developers.notion.com/guides/get-started/quick-start"
+ ],
+ "Airtable": [
+  "https://airtable.com/developers/agents",
+  "https://airtable.com/developers/agents/mcp/getting-started",
+  "https://airtable.com/developers/agents/mcp/tools",
+  "https://airtable.com/developers/agents/mcp/claude",
+  "https://airtable.com/developers/agents/mcp/chatgpt"
+ ],
+ "Linear": [
+  "https://linear.app/developers",
+  "https://linear.app/developers/oauth-2-0-authentication",
+  "https://linear.app/developers/oauth-actor-authorization",
+  "https://linear.app/developers/oauth-app-manifests",
+  "https://linear.app/developers/file-storage-authentication"
+ ],
+ "Jira": [
+  "https://developer.atlassian.com/"
+ ],
+ "Asana": [
+  "https://developers.asana.com/",
+  "https://developers.asana.com/reference/rest-api-reference"
+ ],
+ "Monday.com": [
+  "https://developer.monday.com/",
+  "https://developer.monday.com/api-reference/docs/basics",
+  "https://developer.monday.com/api-reference/reference/webhooks"
+ ],
+ "ClickUp": [
+  "https://developer.clickup.com",
+  "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server",
+  "https://developer.clickup.com/docs/connect-an-ai-assistant-to-clickups-mcp-server-1",
+  "https://developer.clickup.com/docs/mcp-tools",
+  "https://developer.clickup.com/reference/getaccesstoken"
+ ],
+ "Coda": [
+  "https://docs.superhuman.com/developers/apis/v1",
+  "https://coda.io/resources/guides/getting_started_with_coda_mcp",
+  "https://docs.superhuman.com/@oleg/getting-started-guide-coda-api"
+ ],
+ "Smartsheet": [
+  "https://developers.smartsheet.com/",
+  "https://developers.smartsheet.com/register",
+  "https://developers.smartsheet.com/ai-mcp/smartsheet/mcp-server",
+  "https://developers.smartsheet.com/ai-mcp/smartsheet/mcp-server-tools",
+  "https://developers.smartsheet.com/api/smartsheet/openapi"
+ ],
+ "Harvest": [
+  "https://help.getharvest.com/api-v2/",
+  "https://help.getharvest.com/api-v2/authentication-api/",
+  "https://help.getharvest.com/api-v2/authentication-api/authentication/authentication/"
+ ],
+ "Stripe": [
+  "https://docs.stripe.com/api",
+  "https://docs.stripe.com/api/authentication",
+  "https://docs.stripe.com/get-started/development-environment",
+  "https://docs.stripe.com/api/v2/core/account-tokens",
+  "https://docs.stripe.com/api/v2/core/person-tokens"
+ ],
+ "Plaid": [
+  "https://plaid.com/docs/",
+  "https://plaid.com/docs/auth/",
+  "https://plaid.com/docs/api/",
+  "https://plaid.com/docs/quickstart/",
+  "https://plaid.com/docs/liabilities/"
+ ],
+ "Binance": [
+  "https://developers.binance.com/en"
+ ],
+ "Paygent Connect": [],
+ "iPayX": [
+  "https://www.ipayx.ai/docs",
+  "https://www.ipayx.ai/pricing"
+ ],
+ "QuickBooks": [
+  "https://developer.intuit.com/app/developer/homepage"
+ ],
+ "Xero": [
+  "https://developer.xero.com/",
+  "https://developer.xero.com/documentation/guides/oauth2/custom-connections/",
+  "https://developer.xero.com/documentation/guides/oauth2/overview",
+  "https://developer.xero.com/documentation/getting-started-guide/",
+  "https://developer.xero.com/documentation/api/accounting/overview"
+ ],
+ "Brex": [
+  "https://developer.brex.com/",
+  "https://developer.brex.com/docs/mcp",
+  "https://developer.brex.com/guides/quickstart"
+ ],
+ "Ramp": [
+  "https://docs.ramp.com/"
+ ],
+ "PitchBook": [],
+ "NotebookLM": [
+  "https://cloud.google.com/ai/gemini",
+  "https://cloud.google.com/transform/ai-roi-report-token-efficiency-agentic-ai-ownership-workflows-fluency",
+  "https://docs.cloud.google.com/docs/get-started",
+  "https://cloud.google.com/products/firestore",
+  "https://docs.cloud.google.com/endpoints/docs"
+ ],
+ "Otter AI": [
+  "https://help.otter.ai/hc/en-us",
+  "https://help.otter.ai/hc/en-us/categories/360002285334-Getting-started"
+ ],
+ "Fathom": [
+  "https://www.fathom.ai/",
+  "https://www.fathom.ai/pricing"
+ ],
+ "Consensus": [
+  "https://docs.consensus.app/reference/v1_search",
+  "https://docs.consensus.app/docs/mcp",
+  "https://docs.consensus.app/reference/v1_quick_search"
+ ],
+ "Reducto": [
+  "https://docs.reducto.ai/overview",
+  "https://docs.reducto.ai/mcp-server",
+  "https://docs.reducto.ai/quickstart",
+  "https://docs.reducto.ai/studio-quickstart",
+  "https://docs.reducto.ai/api-reference/parse"
+ ],
+ "Devin": [
+  "https://docs.devin.ai/get-started/devin-intro",
+  "https://docs.devin.ai/product-guides/oidc",
+  "https://docs.devin.ai/enterprise/getting-started/get-started",
+  "https://docs.devin.ai/work-with-devin/mcp",
+  "https://docs.devin.ai/work-with-devin/deepwiki-mcp"
+ ],
+ "higgsfield": [
+  "https://higgsfield.ai/cli",
+  "https://higgsfield.ai/mcp",
+  "https://higgsfield.ai/pricing"
+ ],
+ "Mermaid CLI": [
+  "https://github.com/mermaid-js/mermaid-cli",
+  "https://github.com/mcp",
+  "https://github.com/pricing"
+ ],
+ "YouTube Transcript": [
+  "https://transcriptapi.com/developers"
+ ],
+ "Grain": [
+  "https://developers.grain.com/"
+ ]
+}

@@ -50,9 +50,26 @@ behind every answer is kept next to the answer, so a reviewer can open the same
 bytes the model read. The model is told to answer only from those pages and to
 write `Unknown` for anything they do not establish.
 
-The trade is recall: an app whose portal sits on an unguessable domain comes
-back with no pages. The run reports those by name instead of guessing, and they
-are the apps worth pointing a search-backed provider at.
+Measured over the full list: **docs reached for 98 of 100 apps, 313 pages, in 63
+seconds, at zero cost.** Reproduce it with `python coverage_probe.py`.
+
+The trade is recall. Two apps come back with no pages, and the run names them
+instead of guessing:
+
+| App | Why | Is that a bug? |
+| --- | --- | --- |
+| PitchBook | Cloudflare returns 403 to any non-browser request | No — PitchBook has no self-serve API either way, so "gated" is the right answer |
+| Paygent Connect | No developer portal at any derivable URL | No — it is a contact-sales Japanese gateway; the absence *is* the finding |
+
+Two apps needed a human before that number was reachable, and both are recorded
+in the code rather than quietly patched:
+
+- **Meta** (WhatsApp, Meta Ads, Threads) answered a bare `User-Agent` with a
+  400. They need a full browser header set, and they need the *path* from
+  `apps.csv` to be preferred over the bare host — otherwise all three land on
+  the same generic developer landing page.
+- **Binance**: the published `binance-docs.github.io` is dead (404). `apps.csv`
+  has a `docs_hint` column so that correction is visible in the input data.
 
 ## Providers
 
