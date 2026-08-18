@@ -111,6 +111,8 @@ python agent.py --check          # researches one app end to end and prints the 
 ```bash
 # 1. research all 100 apps  ->  results.csv, results.json
 python agent.py                          # ~2-3 min at the default 6 workers
+# on the Gemini free tier, which caps requests per minute:
+python agent.py --workers 2
 
 # 2. verification loops     ->  verification.json
 python verify.py --urls                  # link liveness — needs no API key

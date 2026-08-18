@@ -142,11 +142,20 @@ def blank_row(app):
     return row
 
 
-def research(agent, app):
+RATE_LIMIT_HINTS = ("429", "rate limit", "resource_exhausted", "quota",
+                    "overloaded", "529")
+
+
+def is_rate_limited(error):
+    text = str(error).lower()
+    return any(hint in text for hint in RATE_LIMIT_HINTS)
+
+
+def research(agent, app, attempts=4):
     prompt = PROMPT.format(app_name=app["app_name"],
                            category=app.get("category", ""),
                            website=app.get("website", ""))
-    for attempt in (1, 2):
+    for attempt in range(1, attempts + 1):
         try:
             text, urls = agent.research(SYSTEM, prompt, app)
             data = parse_json(text)
@@ -162,12 +171,18 @@ def research(agent, app):
             }
             return row, extra
         except Exception as error:
-            print("    attempt %d failed: %s" % (attempt, error))
-            if attempt == 2:
+            if attempt == attempts:
+                print("    %s: giving up after %d attempts: %s"
+                      % (app["app_name"], attempts, str(error)[:120]))
                 return blank_row(app), {"notes": "failed: %s" % error,
                                         "sources_seen": [], "researched_at": "",
                                         "model": agent.model, "provider": agent.name}
-            time.sleep(5)
+            # A free tier limits requests per minute, so back off hard on 429
+            # rather than burning the remaining attempts inside the same window.
+            delay = (15 * attempt) if is_rate_limited(error) else (3 * attempt)
+            print("    %s: attempt %d failed (%s), retrying in %ds"
+                  % (app["app_name"], attempt, str(error)[:80], delay))
+            time.sleep(delay)
 
 
 def check(agent, app):
