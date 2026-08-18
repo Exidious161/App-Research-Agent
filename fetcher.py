@@ -38,6 +38,12 @@ HEADERS = {
 
 TIMEOUT = 20
 MAX_PAGE_CHARS = 20000     # per page, after stripping markup
+# A JavaScript-only shell strips down to almost nothing. Salesforce redirects
+# developers.salesforce.com to a Help SPA that yields 50 characters -- treating
+# that as "docs found" is worse than reporting a miss, because the model then
+# answers from an empty page. Anything thinner than this keeps looking.
+MIN_LANDING_CHARS = 600
+MAX_CANDIDATES_TRIED = 8
 MAX_TOTAL_CHARS = 60000    # across every page handed to the model
 
 # Subdomain and path shapes that developer portals actually use.
@@ -180,19 +186,27 @@ def gather(website, max_pages=5, session=None, docs_hint=None):
     session = session or requests.Session()
     pages, seen = [], set()
 
-    landing = None
-    for url in candidates(website, docs_hint):
+    # Keep going past a page that fetched fine but carries no readable text,
+    # and remember the best thin result in case nothing better turns up.
+    landing, best_thin = None, None
+    for url in candidates(website, docs_hint)[:MAX_CANDIDATES_TRIED]:
         got = fetch(url, session)
-        if got:
-            landing = got
+        if not got:
+            continue
+        text = html_to_text(got[1])
+        if len(text) >= MIN_LANDING_CHARS:
+            landing = (got[0], got[1], text)
             break
+        if best_thin is None or len(text) > len(best_thin[2]):
+            best_thin = (got[0], got[1], text)
 
+    landing = landing or best_thin
     if not landing:
         return []
 
-    final_url, markup = landing
+    final_url, markup, text = landing
     seen.add(final_url)
-    pages.append((final_url, html_to_text(markup)[:MAX_PAGE_CHARS]))
+    pages.append((final_url, text[:MAX_PAGE_CHARS]))
 
     targets = [u for u in links_worth_following(final_url, markup,
                                                 limit=max_pages * 2)
