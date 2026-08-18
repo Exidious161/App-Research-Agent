@@ -1,0 +1,350 @@
+{
+  "url_check": {
+    "checked": 38,
+    "live": 36,
+    "dead": 2,
+    "redirected_off_domain": 0,
+    "results": [
+      {
+        "url": "https://www.salesforce.com",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://www.salesforce.com/in/?ir=1",
+        "error": null,
+        "app": "Salesforce"
+      },
+      {
+        "url": "https://developers.hubspot.com/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.hubspot.com/",
+        "error": null,
+        "app": "HubSpot"
+      },
+      {
+        "url": "https://developers.pipedrive.com/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.pipedrive.com/",
+        "error": null,
+        "app": "Pipedrive"
+      },
+      {
+        "url": "https://docs.attio.com/docs/overview",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://docs.attio.com/docs/overview",
+        "error": null,
+        "app": "Attio"
+      },
+      {
+        "url": "https://docs.twenty.com/getting-started/introduction",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://docs.twenty.com/getting-started/introduction",
+        "error": null,
+        "app": "Twenty"
+      },
+      {
+        "url": "https://developers.podio.com/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.podio.com/",
+        "error": null,
+        "app": "Podio"
+      },
+      {
+        "url": "https://www.zoho.com/en-in/crm/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://www.zoho.com/en-in/crm/",
+        "error": null,
+        "app": "Zoho CRM"
+      },
+      {
+        "url": "https://developer.close.com/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.close.com/",
+        "error": null,
+        "app": "Close"
+      },
+      {
+        "url": "https://developer.copper.com/introduction/oauth/index.html",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.copper.com/introduction/oauth/index.html",
+        "error": null,
+        "app": "Copper"
+      },
+      {
+        "url": "https://api.docs.dealcloud.com/docs/token",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://api.docs.dealcloud.com/docs/token",
+        "error": null,
+        "app": "DealCloud"
+      },
+      {
+        "url": "https://developer.zendesk.com/documentation/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.zendesk.com/documentation/",
+        "error": null,
+        "app": "Zendesk"
+      },
+      {
+        "url": "https://developers.intercom.com/docs/build-an-integration/getting-started",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.intercom.com/docs/build-an-integration/getting-started",
+        "error": null,
+        "app": "Intercom"
+      },
+      {
+        "url": "https://www.freshworks.com/freshdesk/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://www.freshworks.com/freshdesk/",
+        "error": null,
+        "app": "Freshdesk"
+      },
+      {
+        "url": "Unknown",
+        "ok": false,
+        "status": null,
+        "error": "no url",
+        "app": "Front"
+      },
+      {
+        "url": "https://docs.usepylon.com/pylon-docs/integrations/pylon-mcp",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://docs.usepylon.com/pylon-docs/integrations/pylon-mcp",
+        "error": null,
+        "app": "Pylon"
+      },
+      {
+        "url": "https://www.liveagent.com/api-v3/",
+        "ok": false,
+        "status": 404,
+        "redirected_off_domain": false,
+        "final_url": "https://www.liveagent.com/api-v3/",
+        "error": null,
+        "app": "LiveAgent"
+      },
+      {
+        "url": "https://www.plain.com/docs/graphql/introduction",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://www.plain.com/docs/graphql/introduction",
+        "error": null,
+        "app": "Plain"
+      },
+      {
+        "url": "https://developer.helpscout.com/apps/getting-started/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.helpscout.com/apps/getting-started/",
+        "error": null,
+        "app": "Help Scout"
+      },
+      {
+        "url": "https://developers.gorgias.com/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.gorgias.com/",
+        "error": null,
+        "app": "Gorgias"
+      },
+      {
+        "url": "https://developer.gladly.com/rest/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.gladly.com/rest/",
+        "error": null,
+        "app": "Gladly"
+      },
+      {
+        "url": "https://docs.slack.dev/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://docs.slack.dev/",
+        "error": null,
+        "app": "Slack"
+      },
+      {
+        "url": "https://developers.twilio.com/series/twilio-developers-hub/landing_page",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.twilio.com/series/twilio-developers-hub/landing_page",
+        "error": null,
+        "app": "Twilio"
+      },
+      {
+        "url": "https://www.zoho.com/cliq/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://www.zoho.com/cliq/",
+        "error": null,
+        "app": "Zoho Cliq"
+      },
+      {
+        "url": "https://open.larksuite.com/developers",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://open.larksuite.com/developers",
+        "error": null,
+        "app": "Lark (Larksuite)"
+      },
+      {
+        "url": "https://pumble.com/login?identifier=developers",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://pumble.com/login?identifier=developers",
+        "error": null,
+        "app": "Pumble"
+      },
+      {
+        "url": "https://docs.discord.com/developers/intro",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://docs.discord.com/developers/intro",
+        "error": null,
+        "app": "Discord"
+      },
+      {
+        "url": "https://core.telegram.org/developers",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://core.telegram.org/developers",
+        "error": null,
+        "app": "Telegram"
+      },
+      {
+        "url": "https://developers.facebook.com/documentation/business-messaging/whatsapp/overview",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.facebook.com/documentation/business-messaging/whatsapp/overview",
+        "error": null,
+        "app": "WhatsApp Business"
+      },
+      {
+        "url": "https://developer.aircall.io/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.aircall.io/",
+        "error": null,
+        "app": "Aircall"
+      },
+      {
+        "url": "https://developer.vonage.com/en/home",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.vonage.com/en/home",
+        "error": null,
+        "app": "Vonage"
+      },
+      {
+        "url": "https://developers.google.com/google-ads",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.google.com/google-ads",
+        "error": null,
+        "app": "Google Ads"
+      },
+      {
+        "url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.facebook.com/documentation/ads-commerce/marketing-api",
+        "error": null,
+        "app": "Meta Ads"
+      },
+      {
+        "url": "https://learn.microsoft.com/en-us/linkedin/marketing/?view=li-lms-2026-08",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://learn.microsoft.com/en-us/linkedin/marketing/?view=li-lms-2026-08",
+        "error": null,
+        "app": "LinkedIn Ads"
+      },
+      {
+        "url": "https://highlevel.stoplight.io/docs/integrations/e7ab3d29a59b6-introduction",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://highlevel.stoplight.io/docs/integrations/e7ab3d29a59b6-introduction",
+        "error": null,
+        "app": "GoHighLevel"
+      },
+      {
+        "url": "https://mailchimp.com/developer/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://mailchimp.com/developer/",
+        "error": null,
+        "app": "Mailchimp"
+      },
+      {
+        "url": "https://developers.klaviyo.com/en/reference/api_overview",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.klaviyo.com/en/reference/api_overview",
+        "error": null,
+        "app": "Klaviyo"
+      },
+      {
+        "url": "https://developer.systeme.io/reference/api",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developer.systeme.io/reference/api",
+        "error": null,
+        "app": "systeme.io"
+      },
+      {
+        "url": "https://developers.pinterest.com/",
+        "ok": true,
+        "status": 200,
+        "redirected_off_domain": false,
+        "final_url": "https://developers.pinterest.com/",
+        "error": null,
+        "app": "Pinterest"
+      }
+    ]
+  }
+}

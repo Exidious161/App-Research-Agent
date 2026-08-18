@@ -1,0 +1,417 @@
+{
+  "total_apps": 41,
+  "auth": [
+    {
+      "label": "Other / unclear",
+      "count": 20,
+      "pct": 48.8
+    },
+    {
+      "label": "OAuth 2.0",
+      "count": 14,
+      "pct": 34.1
+    },
+    {
+      "label": "Bearer / personal token",
+      "count": 6,
+      "pct": 14.6
+    },
+    {
+      "label": "API key",
+      "count": 5,
+      "pct": 12.2
+    },
+    {
+      "label": "JWT",
+      "count": 1,
+      "pct": 2.4
+    }
+  ],
+  "apps_with_multiple_auth": 5,
+  "credential_access": [
+    {
+      "label": "Self-serve",
+      "count": 20,
+      "pct": 48.8
+    },
+    {
+      "label": "Unknown",
+      "count": 14,
+      "pct": 34.1
+    },
+    {
+      "label": "Admin approval",
+      "count": 4,
+      "pct": 9.8
+    },
+    {
+      "label": "Trial",
+      "count": 2,
+      "pct": 4.9
+    },
+    {
+      "label": "Partner/contact sales",
+      "count": 1,
+      "pct": 2.4
+    }
+  ],
+  "buildability": [
+    {
+      "label": "Easy",
+      "count": 22,
+      "pct": 53.7
+    },
+    {
+      "label": "Conditional",
+      "count": 10,
+      "pct": 24.4
+    },
+    {
+      "label": "Unknown",
+      "count": 9,
+      "pct": 22.0
+    }
+  ],
+  "api_type": [
+    {
+      "label": "Unknown",
+      "count": 16,
+      "pct": 39.0
+    },
+    {
+      "label": "REST",
+      "count": 16,
+      "pct": 39.0
+    },
+    {
+      "label": "SDK",
+      "count": 4,
+      "pct": 9.8
+    },
+    {
+      "label": "REST + GraphQL",
+      "count": 4,
+      "pct": 9.8
+    },
+    {
+      "label": "GraphQL",
+      "count": 1,
+      "pct": 2.4
+    }
+  ],
+  "api_breadth": [
+    {
+      "label": "Broad",
+      "count": 18,
+      "pct": 43.9
+    },
+    {
+      "label": "Unknown",
+      "count": 16,
+      "pct": 39.0
+    },
+    {
+      "label": "Moderate",
+      "count": 6,
+      "pct": 14.6
+    },
+    {
+      "label": "Limited",
+      "count": 1,
+      "pct": 2.4
+    }
+  ],
+  "mcp": [
+    {
+      "label": "No MCP found",
+      "count": 29,
+      "pct": 70.7
+    },
+    {
+      "label": "Official MCP",
+      "count": 9,
+      "pct": 22.0
+    },
+    {
+      "label": "Unknown",
+      "count": 3,
+      "pct": 7.3
+    }
+  ],
+  "confidence": [
+    {
+      "label": "High",
+      "count": 24,
+      "pct": 58.5
+    },
+    {
+      "label": "Medium",
+      "count": 9,
+      "pct": 22.0
+    },
+    {
+      "label": "Low",
+      "count": 8,
+      "pct": 19.5
+    }
+  ],
+  "blockers": [
+    {
+      "label": "Other",
+      "count": 7,
+      "pct": 58.3
+    },
+    {
+      "label": "Admin / workspace approval",
+      "count": 3,
+      "pct": 25.0
+    },
+    {
+      "label": "App review required",
+      "count": 1,
+      "pct": 8.3
+    },
+    {
+      "label": "Partner / sales gate",
+      "count": 1,
+      "pct": 8.3
+    }
+  ],
+  "by_category": [
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 1,
+      "category": "CRM platform",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Project Management and Collaboration",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Customer Support and Helpdesk",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 0,
+      "gated": 1,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Customer Service Platform",
+      "open_pct": 0.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 1,
+      "category": "Marketing, Ads, and Commerce",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Marketing, CRM, and Sales Automation",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 0,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Marketing, Transactional Email, SMS, and Commerce",
+      "open_pct": 0.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Email",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 1,
+      "open": 1,
+      "gated": 0,
+      "easy": 1,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Ecommerce",
+      "open_pct": 100.0,
+      "easy_pct": 100.0
+    },
+    {
+      "total": 4,
+      "open": 3,
+      "gated": 0,
+      "easy": 3,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Marketing, Ads, Email and Social",
+      "open_pct": 75.0,
+      "easy_pct": 75.0
+    },
+    {
+      "total": 8,
+      "open": 5,
+      "gated": 2,
+      "easy": 4,
+      "blocked": 0,
+      "official_mcp": 3,
+      "category": "Support and Helpdesk",
+      "open_pct": 62.5,
+      "easy_pct": 50.0
+    },
+    {
+      "total": 7,
+      "open": 4,
+      "gated": 1,
+      "easy": 3,
+      "blocked": 0,
+      "official_mcp": 3,
+      "category": "CRM and Sales",
+      "open_pct": 57.1,
+      "easy_pct": 42.9
+    },
+    {
+      "total": 10,
+      "open": 3,
+      "gated": 0,
+      "easy": 3,
+      "blocked": 0,
+      "official_mcp": 1,
+      "category": "Communications and Messaging",
+      "open_pct": 30.0,
+      "easy_pct": 30.0
+    },
+    {
+      "total": 1,
+      "open": 0,
+      "gated": 0,
+      "easy": 0,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Developer Platform / CRM",
+      "open_pct": 0.0,
+      "easy_pct": 0.0
+    },
+    {
+      "total": 1,
+      "open": 0,
+      "gated": 1,
+      "easy": 0,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Marketing and Ads",
+      "open_pct": 0.0,
+      "easy_pct": 0.0
+    },
+    {
+      "total": 1,
+      "open": 0,
+      "gated": 0,
+      "easy": 0,
+      "blocked": 0,
+      "official_mcp": 0,
+      "category": "Marketing, Ads, and Social",
+      "open_pct": 0.0,
+      "easy_pct": 0.0
+    }
+  ],
+  "open_total": 22,
+  "open_pct": 53.7,
+  "gated_total": 5,
+  "gated_pct": 12.2,
+  "easy_wins": [
+    "Attio",
+    "Close",
+    "Discord",
+    "GoHighLevel",
+    "Gorgias",
+    "Intercom",
+    "Klaviyo",
+    "LiveAgent",
+    "Meta Ads",
+    "Pipedrive",
+    "Plain",
+    "Podio",
+    "SendGrid",
+    "Shopify",
+    "Threads (Meta)",
+    "Twenty",
+    "Vonage",
+    "Zendesk",
+    "systeme.io"
+  ],
+  "needs_outreach": [],
+  "official_mcp_apps": [
+    "Aircall",
+    "Attio",
+    "Close",
+    "DealCloud",
+    "Freshdesk",
+    "Meta Ads",
+    "Plain",
+    "Pylon",
+    "Twenty"
+  ],
+  "headlines": [
+    {
+      "stat": "49%",
+      "claim": "of the 100 apps expose Other / unclear",
+      "detail": "20 of 41. 5 apps document more than one scheme, so a toolkit can usually pick the easier door."
+    },
+    {
+      "stat": "54%",
+      "claim": "let a developer self-serve credentials",
+      "detail": "22 apps are self-serve or trial; 5 sit behind payment, an admin, or a sales conversation."
+    },
+    {
+      "stat": "Other",
+      "claim": "is the single most common blocker",
+      "detail": "Named on 7 of the 12 apps that have a blocker at all \u2014 ahead of Admin / workspace approval."
+    },
+    {
+      "stat": "19",
+      "claim": "are buildable today with no outreach",
+      "detail": "Against 0 blocked outright \u2014 partner gates, sales conversations, or no public API at all. Only 9 ship an official MCP server, so most of this surface is still unbuilt."
+    }
+  ]
+}

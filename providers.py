@@ -147,11 +147,16 @@ class GeminiProvider:
     """Gemini with Google Search grounding. The original backend."""
 
     name = "gemini"
-    DEFAULT_MODEL = "gemini-3.7-flash"
-    # Grounded-search models get renamed and retired often enough that pinning
-    # one name is how the run dies three months later.
-    FALLBACKS = ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash",
-                 "gemini-3.5-flash-lite", "gemini-3.1-flash-lite"]
+    # Free-tier quota is per model and varies wildly: the headline flash model
+    # allows 20 requests a day, which one debugging session burns through,
+    # while flash-lite allows enough for a full 100-app run plus rechecks.
+    # The docs provider supplies the documentation in the prompt, so this is
+    # extraction rather than recall and lite handles it. Override with MODEL.
+    DEFAULT_MODEL = "gemini-3.5-flash-lite"
+    # Models get renamed and retired often enough that pinning one name is how
+    # the run dies three months later.
+    FALLBACKS = ["gemini-3.5-flash-lite", "gemini-3.1-flash-lite",
+                 "gemini-3.5-flash", "gemini-3.6-flash", "gemini-3.7-flash"]
 
     def __init__(self, model=None, api_key=None):
         try:
