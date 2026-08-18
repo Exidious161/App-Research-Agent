@@ -184,10 +184,16 @@ them as a miss.
 ## Deploying the page
 
 `index.html` is fully self-contained — no CDN, no external assets — so any
-static host works:
+static host works. `build_page.py` writes it to the repo root *and* mirrors it
+into `public/`.
 
 ```bash
-npx vercel deploy --prod        # or: netlify deploy --prod --dir .
+npx vercel deploy --prod        # uses vercel.json -> serves public/
 ```
 
-Or push to GitHub and enable Pages on the repo root.
+`vercel.json` matters: a `requirements.txt` at the repo root makes Vercel guess
+this is a Python project and fail with *"No python entrypoint found"*. The
+config turns the build off and points the static root at `public/`.
+
+GitHub Pages is the zero-config alternative — enable Pages on the repo root and
+it serves `index.html` directly, no build step to misdetect.

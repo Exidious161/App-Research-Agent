@@ -642,7 +642,18 @@ def main():
         print("Warning: no %s — run analyze.py for the headline stats." % args.patterns)
 
     page = build(rows, patterns, verification, args.repo, args.live)
-    Path(args.out).write_text(page, encoding="utf-8")
+    out = Path(args.out)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(page, encoding="utf-8")
+
+    # Vercel serves public/ as the static root, because a requirements.txt at
+    # the repo root makes it guess Python and fail the build. Keep a copy there
+    # so deploying is just `vercel deploy --prod` with no extra steps.
+    if out.parent != Path("public"):
+        mirror = Path("public") / "index.html"
+        mirror.parent.mkdir(exist_ok=True)
+        mirror.write_text(page, encoding="utf-8")
+        print("Also wrote %s for static hosting" % mirror)
     print("Wrote %s (%.1f KB, %d apps)" % (args.out, len(page) / 1024, len(rows)))
 
 
