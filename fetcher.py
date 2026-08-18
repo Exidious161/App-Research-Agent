@@ -43,7 +43,7 @@ MAX_PAGE_CHARS = 20000     # per page, after stripping markup
 # that as "docs found" is worse than reporting a miss, because the model then
 # answers from an empty page. Anything thinner than this keeps looking.
 MIN_LANDING_CHARS = 600
-MAX_CANDIDATES_TRIED = 8
+MAX_CANDIDATES_TRIED = 16   # every candidate; the bare root is last
 MAX_TOTAL_CHARS = 60000    # across every page handed to the model
 
 # Subdomain and path shapes that developer portals actually use.
@@ -59,6 +59,20 @@ FOLLOW = [
     ("getting-started", 6), ("quickstart", 6), ("get-started", 6),
     ("reference", 5), ("rest", 5), ("graphql", 5), ("endpoints", 5),
     ("pricing", 4), ("plans", 4), ("mcp", 8),
+]
+
+# Tried against the docs host when link-following comes up empty. These are
+# the paths documentation frameworks actually generate.
+# Sitemap sections that mention auth constantly but never explain it: release
+# notes, blog posts, per-class SDK reference, deprecated docs.
+SITEMAP_NOISE = ("/changelog", "/blog", "/legacy", "/release", "/news",
+                 "/whatsnew", "/deprecat", "/archive", "/community",
+                 "/interfaces/", "/classes/", "/modules/", "/enums/")
+
+AUTH_PATHS = [
+    "/authentication", "/docs/authentication", "/reference/authentication",
+    "/api/authentication", "/docs/auth", "/auth", "/oauth", "/docs/oauth",
+    "/getting-started", "/docs/getting-started", "/reference/authorization",
 ]
 
 SKIP_EXT = (".pdf", ".zip", ".png", ".jpg", ".jpeg", ".gif", ".svg", ".ico",
@@ -140,8 +154,12 @@ def html_to_text(markup):
     return _BLANK.sub("\n\n", text).strip()
 
 
-def fetch(url, session=None):
-    """Returns (final_url, html) or None. Never raises."""
+def fetch(url, session=None, want="html"):
+    """Returns (final_url, body) or None. Never raises.
+
+    want="xml" is for sitemaps, which are served as application/xml and would
+    otherwise be dropped by the HTML content-type guard.
+    """
     getter = session or requests
     try:
         response = getter.get(url, headers=HEADERS, timeout=TIMEOUT,
@@ -150,7 +168,8 @@ def fetch(url, session=None):
         return None
     if response.status_code != 200:
         return None
-    if "html" not in response.headers.get("Content-Type", "text/html").lower():
+    kind = response.headers.get("Content-Type", "text/html").lower()
+    if want not in kind and not (want == "xml" and "text" in kind):
         return None
     return response.url, response.text
 
@@ -175,6 +194,51 @@ def links_worth_following(base_url, markup, limit=6):
             scored[url] = score
     ranked = sorted(scored.items(), key=lambda kv: -kv[1])
     return [url for url, _ in ranked[:limit]]
+
+
+def from_sitemap(base_url, session=None, limit=8):
+    """Auth and reference URLs pulled from the docs site sitemap.
+
+    Works where link-scraping does not: a sitemap is static XML, so a
+    JavaScript-rendered docs site still lists every page in it.
+    """
+    parts = urlparse(base_url)
+    root = "%s://%s" % (parts.scheme, parts.netloc)
+    locations = []
+    for name in ("/sitemap.xml", "/sitemap_index.xml", "/docs/sitemap.xml"):
+        got = fetch(root + name, session, want="xml")
+        if not got:
+            continue
+        locations = re.findall(r"<loc>\s*([^<\s]+)\s*</loc>", got[1], re.I)
+        # A sitemap index points at more sitemaps; follow the first couple.
+        if locations and locations[0].endswith(".xml"):
+            nested = []
+            for child in locations[:3]:
+                child_got = fetch(child, session, want="xml")
+                if child_got:
+                    nested += re.findall(r"<loc>\s*([^<\s]+)\s*</loc>",
+                                         child_got[1], re.I)
+            locations = nested or locations
+        if locations:
+            break
+
+    scored = {}
+    for url in locations:
+        low = url.lower()
+        if not url.startswith("http") or low.endswith(SKIP_EXT):
+            continue
+        if registrable(url) != registrable(base_url):
+            continue
+        if any(noise in low for noise in SITEMAP_NOISE):
+            continue
+        score = sum(weight for word, weight in FOLLOW if word in low)
+        if not score:
+            continue
+        # The canonical "Authentication" page sits near the top of the tree;
+        # anything buried many levels deep is a detail page about it.
+        depth = urlparse(url).path.strip("/").count("/")
+        scored[url] = score - depth
+    return [u for u, _ in sorted(scored.items(), key=lambda kv: -kv[1])[:limit]]
 
 
 def gather(website, max_pages=5, session=None, docs_hint=None):
@@ -210,11 +274,36 @@ def gather(website, max_pages=5, session=None, docs_hint=None):
 
     targets = [u for u in links_worth_following(final_url, markup,
                                                 limit=max_pages * 2)
-               if u not in seen][:max_pages - 1]
+               if u not in seen]
+
+    # Many docs sites are JavaScript apps whose landing page carries almost no
+    # crawlable links, so link-following alone finds nothing and the model is
+    # left with a page that never mentions auth. The sitemap is static XML and
+    # lists the auth pages regardless of how the site renders.
+    if len(targets) < max_pages - 1:
+        targets += [u for u in from_sitemap(final_url, session)
+                    if u not in seen and u not in targets]
+
+    # Last resort: the paths documentation frameworks conventionally generate.
+    if len(targets) < max_pages - 1:
+        root = "%s://%s" % (urlparse(final_url).scheme, urlparse(final_url).netloc)
+        targets += [root + path for path in AUTH_PATHS
+                    if root + path not in seen and root + path not in targets]
+
+    targets = targets[:max_pages - 1]
+
+    MIN_FOLLOWED_CHARS = 400
 
     def grab(url):
         got = fetch(url, session)
-        return (got[0], html_to_text(got[1])[:MAX_PAGE_CHARS]) if got else None
+        if not got:
+            return None
+        text = html_to_text(got[1])
+        # A guessed path that does not exist often still returns 200 with a
+        # near-empty shell. Feeding that to the model is worse than nothing.
+        if len(text) < MIN_FOLLOWED_CHARS:
+            return None
+        return got[0], text[:MAX_PAGE_CHARS]
 
     if targets:
         with ThreadPoolExecutor(max_workers=4) as pool:
