@@ -305,10 +305,14 @@ def main():
             for future in as_completed(futures):
                 completed.append(future.result())
                 # Checkpoint as results land, so an interrupted run keeps
-                # everything finished so far.
+                # everything finished so far -- including results.json, which
+                # holds the fetched-source list the evidence check reads.
                 with lock:
                     ordered = sorted(completed)
                     write_csv(rows + [r for _, r, _ in ordered], args.out)
+                    json_path.write_text(
+                        json.dumps(records + [dict(r, **e) for _, r, e in ordered],
+                                   indent=2), encoding="utf-8")
     else:
         completed = []
         for item in enumerate(todo):
